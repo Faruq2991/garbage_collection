@@ -8,9 +8,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/collectors" element={<CollectorsPage />} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </Router>
   );
 }
 
-export default App;
+export default App;  // ✅ Default export added
