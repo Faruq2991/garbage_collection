@@ -7,3 +7,7 @@ passlib[bcrypt]  # For password hashing
 python-jose[cryptography]  # JWT authentication
 email-validator  # Email validation
 httpx  # For async requests (if used in testing)
+slowapi
+python-dotenv
+python-multipart
+fastapi-mail
