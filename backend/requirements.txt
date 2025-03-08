@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+psycopg2-binary  # PostgreSQL database adapter
+passlib[bcrypt]  # For password hashing
+python-jose[cryptography]  # JWT authentication
+email-validator  # Email validation
+httpx  # For async requests (if used in testing)
