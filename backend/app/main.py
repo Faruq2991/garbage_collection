@@ -12,6 +12,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+oriigins = [
+    #frontend web address.
+]
+
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(requests.router, prefix="/requests", tags=["Garbage Requests"])
 app.include_router(collectors.router, prefix="/collectors", tags=["collectors"])
@@ -30,7 +34,7 @@ async def add_process_time_header(request: Request, call_next):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to your frontend domain in production
+    allow_origins=[oriigins],  # Change this to your frontend domain in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,12 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import axios from "axios";
 
-export const requestPickup = async (data) => {
-    const response = await fetch(`${API_URL}/requests/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
-    return response.json();
+const API = axios.create({
+  baseURL: "/api",
+});
+
+export const getGarbageRequests = async () => {
+  const response = await API.get("/requests");
+  return response.data;
 };

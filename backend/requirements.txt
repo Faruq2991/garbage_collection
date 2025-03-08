@@ -11,3 +11,5 @@ slowapi
 python-dotenv
 python-multipart
 fastapi-mail
+asyncpg
+alembic

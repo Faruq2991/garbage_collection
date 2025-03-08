@@ -36,5 +36,9 @@ class GarbageRequest(Base):
     user = relationship("User", foreign_keys=[user_id], back_populates="requests_made")
     collector = relationship("User", foreign_keys=[collector_id], back_populates="requests_collected", uselist=False)
 
+"""class Collector(Base):
+    __tablename__ = "collectors"
 
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)"""
     
