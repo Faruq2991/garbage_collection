@@ -1,22 +1,15 @@
-import { useEffect, useState } from "react";
-import { getGarbageRequests } from "./api";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import CollectorsPage from "./pages/CollectorsPage";
 
 function App() {
-  const [requests, setRequests] = useState([]);
-
-  useEffect(() => {
-    getGarbageRequests().then(setRequests);
-  }, []);
-
   return (
-    <div>
-      <h1>Garbage Collection Requests</h1>
-      <ul>
-        {requests.map((req) => (
-          <li key={req.id}>Request {req.id}: {req.status}</li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/collectors" element={<CollectorsPage />} />
+      </Routes>
+    </Router>
   );
 }
 
