@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getRequests, acceptRequest, completeRequest } from "../api/api";
+import { getPickupRequests, acceptRequest, completeRequest } from "../api/api";
+
 import { useAuthStore } from "../store/authStore";
 
 function Dashboard() {

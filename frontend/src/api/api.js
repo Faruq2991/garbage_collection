@@ -1,12 +1,49 @@
 import axios from "axios";
 
-// Base URL is proxied via Vite's configuration, so /api maps to FastAPI
+// Base URL is proxied via Vite's configuration, so /api maps to your FastAPI backend.
 const API = axios.create({
   baseURL: "/api",
 });
 
-// Example: Submit a garbage pickup request
-export const submitPickupRequest = async (pickupData, token) => {
+// User Authentication
+
+export const registerUser = async (userData) => {
+  try {
+    const response = await API.post("/users/register/", userData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error;
+  }
+};
+
+export const loginUser = async (credentials) => {
+  try {
+    const response = await API.post("/users/login/", credentials);
+    return response.data;
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
+  }
+};
+
+export const getCurrentUser = async (token) => {
+  try {
+    const response = await API.get("/users/me/", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    throw error;
+  }
+};
+
+// Garbage Pickup Requests
+
+export const createPickupRequest = async (pickupData, token) => {
   try {
     const response = await API.post("/requests/", pickupData, {
       headers: { Authorization: `Bearer ${token}` },
@@ -18,7 +55,6 @@ export const submitPickupRequest = async (pickupData, token) => {
   }
 };
 
-// Example: Fetch all pickup requests (for collectors)
 export const getPickupRequests = async (token) => {
   try {
     const response = await API.get("/requests/", {
@@ -30,3 +66,31 @@ export const getPickupRequests = async (token) => {
     throw error;
   }
 };
+
+export const acceptRequest = async (requestId, token) => {
+  try {
+    const response = await API.put(`/requests/${requestId}/accept/`, null, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error accepting request:", error);
+    throw error;
+  }
+};
+
+export const completeRequest = async (requestId, token) => {
+  try {
+    const response = await API.put(`/requests/${requestId}/complete/`, null, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error completing request:", error);
+    throw error;
+  }
+};
+
+
+
+export default API;
