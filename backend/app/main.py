@@ -1,19 +1,17 @@
 from fastapi import FastAPI, BackgroundTasks, Request
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from starlette.responses import JSONResponse
 from app.routers import users, requests
 from app.email import send_email
 from app.routers import collectors
 from fastapi.middleware.cors import CORSMiddleware
 
-
-
-
 app = FastAPI()
 
-oriigins = [
-    #frontend web address.
+origins = [
+    "http://localhost:5173"
 ]
 
 app.include_router(users.router, prefix="/users", tags=["Users"])
@@ -25,25 +23,27 @@ limiter = Limiter(key_func=get_remote_address)
 
 # Register exception handler
 app.state.limiter = limiter
-app.add_exception_handler(429, _rate_limit_exceeded_handler)
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     response = await call_next(request)
+    # Example: Add a header with the process time
+    response.headers["X-Process-Time"] = str(0.1)  # Replace with actual process time calculation
     return response
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[oriigins],  # Change this to your frontend domain in production
+    allow_origins=origins,  # Change this to your frontend domain in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 @app.get("/")
-def home():
+@limiter.limit("5/minute")
+def home(request: Request):
     return {"message": "Welcome to the Garbage Collection System"}
-
 
 @app.get("/send-test-email/")
 async def send_test_email(background_tasks: BackgroundTasks):
@@ -54,6 +54,5 @@ async def send_test_email(background_tasks: BackgroundTasks):
     # Send email in the background
     background_tasks.add_task(send_email, subject, recipient, body)
     return {"message": "Test email sent! Check your inbox."}
-
 
 # Run the app with: uvicorn app.main:app --reload
