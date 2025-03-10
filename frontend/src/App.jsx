@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import RequestPickup from "./pages/RequestPickup";
-import Dashboard from "./pages/Dashboard";
+import DashboardRouter from "./pages/DashboardRouter"; //import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -16,11 +16,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/request" element={<RequestPickup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardRouter />} /> 
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
 }
-
 export default App;

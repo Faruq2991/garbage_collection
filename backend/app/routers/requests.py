@@ -46,6 +46,15 @@ def get_requests(db: Session = Depends(get_db), user: User = Depends(get_current
         raise HTTPException(status_code=403, detail="Only collectors can view requests")
     return db.query(GarbageRequest).all()
 
+@router.get("/my-requests/", response_model=List[GarbageRequestResponse])
+def get_user_requests(
+    db: Session = Depends(get_db), 
+    user: User = Depends(get_current_user)
+):
+    # Fetch only the logged-in user's requests
+    return db.query(GarbageRequest).filter(GarbageRequest.user_id == user.id).all()
+
+
 @router.get("/{request_id}/", response_model=GarbageRequestResponse)
 def get_request(request_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     request = db.query(GarbageRequest).filter(GarbageRequest.id == request_id).first()
@@ -60,7 +69,7 @@ def get_request(request_id: int, db: Session = Depends(get_db), user: User = Dep
 @router.put("/{request_id}/accept/")
 def accept_request(
     request_id: int,
-    background_tasks: BackgroundTasks,  # ✅ Move this before db and user
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user)
 ):
@@ -75,11 +84,12 @@ def accept_request(
     request.status = "accepted"
     db.commit()
 
-    # Notify user
-    user = db.query(User).filter(User.id == request.user_id).first()
+    # ✅ Fix: Rename `user` variable to avoid overwriting
+    request_user = db.query(User).filter(User.id == request.user_id).first()
+
     subject = "Your Garbage Pickup Request Has Been Accepted"
-    body = f"Hello {user.name}, your garbage pickup request has been accepted by a collector."
-    background_tasks.add_task(send_email, subject, user.email, body)
+    body = f"Hello {request_user.name}, your garbage pickup request has been accepted by a collector."
+    background_tasks.add_task(send_email, subject, request_user.email, body)
 
     return {"message": "Request accepted"}
 

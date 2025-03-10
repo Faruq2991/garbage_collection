@@ -18,13 +18,24 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting Data:", formData); // Log request data
+    
     try {
       await registerUser(formData);
       navigate("/login");
     } catch (error) {
-      setErrorMsg("Registration failed. Please try again.");
+      console.error("FastAPI Error Response:", error.response?.data);
+      
+      // Ensure errorMsg is always a string
+      if (error.response?.data?.detail) {
+        setErrorMsg(JSON.stringify(error.response.data.detail)); // Convert to string
+      } else {
+        setErrorMsg("Registration failed. Please try again.");
+      }
     }
   };
+  
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
@@ -57,10 +68,23 @@ function RegisterPage() {
           className="w-full p-2 mb-4 border rounded"
           required
         />
-        {/* Role is preset to "user", but you could allow selection if needed */}
+        
+        {/* Role Dropdown */}
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="w-full p-2 mb-4 border rounded"
+          required
+        >
+          <option value="user">User</option>
+          <option value="collector">Collector</option>
+        </select>
+        
         <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
           Register
         </button>
+        
         {errorMsg && <p className="text-red-500 mt-2">{errorMsg}</p>}
       </form>
     </div>

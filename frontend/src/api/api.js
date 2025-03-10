@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// Base URL is proxied via Vite's configuration, so /api maps to your FastAPI backend.
+// Base API instance
 const API = axios.create({
-  baseURL: "/api",
+  baseURL: "http://localhost:8000",
 });
 
-// User Authentication
+// ✅ User Authentication
 
 export const registerUser = async (userData) => {
   try {
@@ -41,7 +41,7 @@ export const getCurrentUser = async (token) => {
   }
 };
 
-// Garbage Pickup Requests
+// ✅ Garbage Pickup Requests
 
 export const createPickupRequest = async (pickupData, token) => {
   try {
@@ -51,6 +51,18 @@ export const createPickupRequest = async (pickupData, token) => {
     return response.data;
   } catch (error) {
     console.error("Error submitting pickup request:", error);
+    throw error;
+  }
+};
+
+export const getUserRequests = async (token) => {
+  try {
+    const response = await API.get("/requests/my-requests/", {  // ✅ Correct API
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user requests:", error);
     throw error;
   }
 };
@@ -90,7 +102,5 @@ export const completeRequest = async (requestId, token) => {
     throw error;
   }
 };
-
-
 
 export default API;
