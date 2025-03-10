@@ -30,6 +30,7 @@ class GarbageRequest(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     location: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    #waste_type = Mapped[str] = mapped_column(String, nullable=False)  # ✅ New field
     #is_active = Mapped[bool] = mapped_column(Boolean, default=True)
     
     # Relationships

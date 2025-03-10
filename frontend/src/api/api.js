@@ -49,11 +49,13 @@ export const createPickupRequest = async (pickupData, token) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
+    
   } catch (error) {
     console.error("Error submitting pickup request:", error);
     throw error;
   }
 };
+
 
 export const getUserRequests = async (token) => {
   try {
@@ -104,3 +106,4 @@ export const completeRequest = async (requestId, token) => {
 };
 
 export default API;
+

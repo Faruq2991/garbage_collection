@@ -24,6 +24,7 @@ class TokenData(BaseModel):
 class GarbageRequestCreate(BaseModel):
     location: str
     description: str
+    waste_type: str  # ✅ New field
 
 class GarbageRequestResponse(BaseModel):
     id: int

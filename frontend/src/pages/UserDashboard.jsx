@@ -37,6 +37,7 @@ function UserDashboard() {
             <li key={req.id} className="border p-4 bg-white rounded shadow">
               <p><strong>ID:</strong> {req.id}</p>
               <p><strong>Location:</strong> {req.location}</p>
+              <p><strong>Waste Type:</strong> {req.wasteType}</p> {/* ✅ Show waste type */}
               <p><strong>Status:</strong> {req.status}</p>
               <p><strong>Description:</strong> {req.description}</p>
               {req.status === "completed" && (
