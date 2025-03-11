@@ -46,7 +46,10 @@ export const getCurrentUser = async (token) => {
 export const createPickupRequest = async (pickupData, token) => {
   try {
     const response = await API.post("/requests/", pickupData, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { 
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json" // ✅ Add this line
+      },
     });
     return response.data;
     

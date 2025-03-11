@@ -7,12 +7,18 @@ function RequestPickup() {
   const [description, setDescription] = useState("");
   const [wasteType, setWasteType] = useState(""); // ✅ New state for waste type
   const [error, setError] = useState("");
+  const user = useAuthStore((state) => state.user); // Add this line
   const token = useAuthStore((state) => state.token);
+  
+
+  if (!user || user.role !== "user") {
+    return <p className="text-red-500">Only users can request pickups.</p>;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createPickupRequest({ location, description, wasteType }, token); // ✅ Include wasteType
+      await createPickupRequest({ location, description, waste_type: wasteType }, token); // ✅ Include wasteType
       setLocation("");
       setDescription("");
       setWasteType(""); // ✅ Reset wasteType after submission

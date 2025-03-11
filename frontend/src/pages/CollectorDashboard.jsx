@@ -33,11 +33,13 @@ function CollectorDashboard() {
           req.id === id ? { ...req, status: "accepted" } : req
         )
       );
+      console.log(`Request ${id} accepted.`);
     } catch (err) {
+      console.error("Error accepting request:", err);
       setError("Failed to accept request.");
     }
   };
-
+  
   const handleComplete = async (id) => {
     try {
       await completeRequest(id, token);
@@ -46,11 +48,13 @@ function CollectorDashboard() {
           req.id === id ? { ...req, status: "completed" } : req
         )
       );
+      console.log(`Request ${id} completed.`);
     } catch (err) {
+      console.error("Error completing request:", err);
       setError("Failed to mark request as complete.");
     }
   };
-
+  
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Collector Dashboard</h2>
