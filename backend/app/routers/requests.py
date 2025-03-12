@@ -25,7 +25,9 @@ def request_pickup(
         user_id=user.id,
         location=request.location,
         description=request.description,
-        status="pending"
+        waste_type=request.waste_type,  # Add this line
+        status="pending",
+        is_active=True 
     )
 
     # ✅ Add to the database

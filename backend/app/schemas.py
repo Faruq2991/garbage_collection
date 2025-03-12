@@ -38,6 +38,7 @@ class GarbageRequestResponse(BaseModel):
     updated_at: datetime
     location: str
     description: Optional[str] = None
+    waste_type: str
 
     class Config:
         from_attributes = True  # Ensure ORM compatibility
