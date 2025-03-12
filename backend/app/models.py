@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, DateTime, Float
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from .database import Base
@@ -14,6 +14,11 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String, nullable=False)
     role = Column(String, nullable=False)  # "user" or "collector"
+    country = Column(String, nullable=False)
+    state = Column(String, nullable=False)
+    phone = Column(String, unique=True, nullable=False)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)  
     
     # Relationships
     requests_made = relationship("GarbageRequest", foreign_keys="[GarbageRequest.user_id]", back_populates="user")
@@ -30,16 +35,10 @@ class GarbageRequest(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     location: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    #waste_type = Mapped[str] = mapped_column(String, nullable=False)  # ✅ New field
-    #is_active = Mapped[bool] = mapped_column(Boolean, default=True)
+    waste_type: Mapped[str] = mapped_column(String, nullable=False)  # ✅ New field
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="requests_made")
     collector = relationship("User", foreign_keys=[collector_id], back_populates="requests_collected", uselist=False)
-
-"""class Collector(Base):
-    __tablename__ = "collectors"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)"""
-    
+   

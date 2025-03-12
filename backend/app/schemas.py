@@ -9,6 +9,9 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
     role: Literal["user", "collector"]  # Restrict role values
+    country: str
+    state: str
+    phone: str
 
 
 class UserLogin(BaseModel):

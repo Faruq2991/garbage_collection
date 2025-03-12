@@ -8,6 +8,9 @@ function RegisterPage() {
     email: "",
     password: "",
     role: "user",
+    country: "", 
+    state: "",
+    phone: ""
   });
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
@@ -68,7 +71,37 @@ function RegisterPage() {
           className="w-full p-2 mb-4 border rounded"
           required
         />
-        
+
+        <input 
+          type="text" 
+          name="country"  // ✅ Added name attribute
+          placeholder="Country" 
+          value={formData.country} 
+          onChange={handleChange} 
+          className="w-full p-2 mb-4 border rounded"
+          required 
+        />
+
+        <input 
+          type="text" 
+          name="state"  // ✅ Added name attribute
+          placeholder="State" 
+          value={formData.state} 
+          onChange={handleChange} 
+          className="w-full p-2 mb-4 border rounded"
+          required 
+        />
+
+        <input 
+          type="text" 
+          name="phone"  // ✅ Added name attribute
+          placeholder="Phone Number" 
+          value={formData.phone} 
+          onChange={handleChange} 
+          className="w-full p-2 mb-4 border rounded"
+          required 
+        />
+
         {/* Role Dropdown */}
         <select
           name="role"
