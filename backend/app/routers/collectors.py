@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import GarbageRequest, User
-from app.schemas import AssignCollectorRequest
+from app.schemas import AssignCollectorRequest, UpdateLocationSchema
 from app.routers.users import get_current_user
 from math import radians, cos, sin, sqrt, atan2
 
@@ -71,23 +71,23 @@ def get_nearby_collectors(
     return {"nearby_collectors": nearby_collectors}
 
 # 🛠 Fix 1: Explicitly update the user instance from DB
+
+
 @router.put("/update-location/")
 def update_collector_location(
-    latitude: float,
-    longitude: float,
+    data: UpdateLocationSchema,  # ✅ Expect JSON body, not query params
     db: Session = Depends(get_db),
     user=Depends(get_current_user)
 ):
     if not hasattr(user, "role") or user.role != "collector":
         raise HTTPException(status_code=403, detail="Only collectors can update their location.")
 
-    # Fetch the user explicitly from the DB
     db_user = db.query(User).filter(User.id == user.id).first()
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found.")
 
-    db_user.latitude = latitude
-    db_user.longitude = longitude
+    db_user.latitude = data.latitude  # ✅ Use request body data
+    db_user.longitude = data.longitude
 
     db.commit()
     db.refresh(db_user)

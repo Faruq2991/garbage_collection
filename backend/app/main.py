@@ -4,7 +4,6 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from starlette.responses import JSONResponse
 from app.routers import users, requests
-from app.email import send_email
 from app.routers import collectors
 from fastapi.middleware.cors import CORSMiddleware
 

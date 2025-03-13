@@ -69,12 +69,18 @@ function CollectorDashboard() {
       async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        setLocation({ latitude, longitude });
-
+        
         try {
-          await API.put("/collectors/update-location/", { latitude, longitude }, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          await API.put(
+            "/collectors/update-location/",  
+            { latitude, longitude },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json", 
+              },
+            }
+          );
           setMessage("Location updated successfully!");
         } catch (error) {
           setMessage("Error updating location.");
