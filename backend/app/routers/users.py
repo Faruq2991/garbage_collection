@@ -59,7 +59,7 @@ def get_me(user: User = Depends(get_current_user)):
 
 
 
-@router.put("/users/update-location/")
+@router.put("/update-location/")
 def update_location(
     location: UpdateLocationSchema, 
     db: Session = Depends(get_db), 

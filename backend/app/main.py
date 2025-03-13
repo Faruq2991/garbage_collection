@@ -45,14 +45,5 @@ app.add_middleware(
 def home(request: Request):
     return {"message": "Welcome to the Garbage Collection System"}
 
-@app.get("/send-test-email/")
-async def send_test_email(background_tasks: BackgroundTasks):
-    subject = "Test Email"
-    recipient = "your-email@example.com"  # Replace with your actual email
-    body = "<h3>This is a test email from FastAPI-Mail</h3>"
-
-    # Send email in the background
-    background_tasks.add_task(send_email, subject, recipient, body)
-    return {"message": "Test email sent! Check your inbox."}
 
 # Run the app with: uvicorn app.main:app --reload
