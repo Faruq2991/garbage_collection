@@ -4,9 +4,10 @@ from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from app.database import get_db
 from app.models import User
-from app.schemas import UserCreate, UserLogin, TokenData
+from app.schemas import UserCreate, UserLogin, TokenData, UpdateLocationSchema
 from app.auth import create_access_token, verify_token
 from datetime import timedelta
+
 
 router = APIRouter()
 
@@ -55,3 +56,21 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 @router.get("/me/")
 def get_me(user: User = Depends(get_current_user)):
     return {"name": user.name, "email": user.email, "role": user.role}
+
+
+
+@router.put("/users/update-location/")
+def update_location(
+    location: UpdateLocationSchema, 
+    db: Session = Depends(get_db), 
+    user: User = Depends(get_current_user)
+):
+    if user.role != "collector":
+        return {"error": "Only collectors can update location"}
+
+    user.latitude = location.latitude
+    user.longitude = location.longitude
+    db.commit()
+    db.refresh(user)
+    
+    return {"message": "Location updated successfully"}

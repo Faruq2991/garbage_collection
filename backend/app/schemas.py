@@ -47,4 +47,6 @@ class AssignCollectorRequest(BaseModel):
     request_id: int
     collector_id: int
 
-
+class UpdateLocationSchema(BaseModel):
+    latitude: float
+    longitude: float
