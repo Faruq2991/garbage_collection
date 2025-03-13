@@ -106,7 +106,7 @@ function CollectorDashboard() {
         <ul className="space-y-4">
           {requests.map((req) => (
             <li key={req.id} className="border p-4 bg-white rounded shadow">
-              <p><strong>ID:</strong> {req.id}</p>
+              <p><strong>Request Number:</strong> {req.request_number}</p>
               <p><strong>Location:</strong> {req.location}</p>
               <p><strong>Status:</strong> {req.status}</p>
               <div className="mt-2 space-x-2">

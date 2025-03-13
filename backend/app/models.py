@@ -28,6 +28,7 @@ class GarbageRequest(Base):
     __tablename__ = "garbage_requests"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    request_number: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     collector_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"), nullable=True)
     status: Mapped[str] = mapped_column(String, default="pending")

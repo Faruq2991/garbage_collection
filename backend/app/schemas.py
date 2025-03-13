@@ -31,6 +31,7 @@ class GarbageRequestCreate(BaseModel):
 
 class GarbageRequestResponse(BaseModel):
     id: int
+    request_number: str
     user_id: int
     collector_id: Optional[int] = None
     status: str
@@ -39,6 +40,7 @@ class GarbageRequestResponse(BaseModel):
     location: str
     description: Optional[str] = None
     waste_type: str
+    is_active: bool
 
     class Config:
         from_attributes = True  # Ensure ORM compatibility
