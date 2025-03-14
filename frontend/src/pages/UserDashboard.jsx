@@ -99,8 +99,10 @@ return (
       <ul className="mt-4">
         {collectors.map((collector) => (
           <li key={collector.id} className="border p-2 bg-gray-100 rounded shadow">
-            {collector.name} - {collector.distance} km away
-          </li>
+          <p><strong>Name:</strong> {collector.name}</p>
+          <p><strong>Phone:</strong> {collector.phone_number}</p> {/* ✅ Display Phone Number */}
+          <p><strong>Distance:</strong> {collector.distance} km away</p>
+        </li>
         ))}
       </ul>
     </div>

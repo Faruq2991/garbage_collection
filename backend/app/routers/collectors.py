@@ -60,7 +60,7 @@ def get_nearby_collectors(
     ).all()
 
     nearby_collectors = [
-        {"id": c.id, "name": c.name, "distance": round(haversine(user_lat, user_lon, c.latitude, c.longitude), 2)}
+        {"id": c.id, "name": c.name, "phone_number": c.phone, "distance": round(haversine(user_lat, user_lon, c.latitude, c.longitude), 2)}
         for c in collectors
         if haversine(user_lat, user_lon, c.latitude, c.longitude) <= 10
     ]
